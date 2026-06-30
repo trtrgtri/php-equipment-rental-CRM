@@ -1,0 +1,15 @@
+[2026-06-30 10:39:52] Database connection failed: SQLSTATE[HY000] [1049] Unknown database 'equipment_rental_crm'
+[2026-06-30 10:58:38] Database connection failed: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO)
+[2026-06-30 11:00:50] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
+[2026-06-30 11:00:52] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
+[2026-06-30 11:00:56] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
+[2026-06-30 11:01:01] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
+[2026-06-30 11:01:09] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
+[2026-06-30 11:01:20] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
+[2026-06-30 11:01:22] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
+[2026-06-30 15:15:03] Login failed for email: admin@example.com
+[2026-06-30 15:15:35] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
+[2026-06-30 15:16:46] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RentalRepository.php:25
+[2026-06-30 15:29:48] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
+[2026-06-30 15:30:02] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
+[2026-06-30 15:30:16] SQLSTATE[HY093]: Invalid parameter number in C:\Users\Trong Tri\PHP-Session\Cursor-Equipment Rental CRM\app\Repositories\RenterRepository.php:22
