@@ -48,8 +48,7 @@ class RentalRepository
             $params['keyword4'] = '%' . $keyword . '%';
         }
 
-        $sql .= ' ORDER BY id DESC LIMIT :limit OFFSET :offset';
-
+        $sql .= " ORDER BY {$sortColumn} {$sortDirection}, id DESC LIMIT :limit OFFSET :offset";
         $stmt = $this->db->prepare($sql);
 
         foreach ($params as $key => $value) {

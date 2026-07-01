@@ -52,35 +52,35 @@ Truy cập: http://localhost:8000
 
 ## Tài khoản demo
 
-| Email | Mật khẩu | Role |
-|-------|----------|------|
-| admin@example.com | 123456 | admin |
-| staff@example.com | 123456 | staff |
+| Email             | Mật khẩu | Role  |
+| ----------------- | -------- | ----- |
+| admin@example.com | 123456   | admin |
+| staff@example.com | 123456   | staff |
 
 ## Route table
 
-| Method | URL | Controller@Action | Mô tả |
-|--------|-----|-------------------|-------|
-| GET | `/` | HomeController@index | Trang chủ / redirect dashboard |
-| GET | `/login` | AuthController@login | Form đăng nhập |
-| POST | `/login` | AuthController@handleLogin | Xử lý đăng nhập |
-| POST | `/logout` | AuthController@logout | Đăng xuất |
-| GET | `/dashboard` | DashboardController@index | Tổng quan (yêu cầu login) |
-| GET | `/public-renters/create` | PublicRenterController@create | Form công khai đăng ký thuê |
-| POST | `/public-renters` | PublicRenterController@store | Xử lý form công khai + PRG |
-| GET | `/renters` | RenterController@index | Danh sách khách thuê |
-| GET | `/renters/create` | RenterController@create | Form thêm khách thuê |
-| POST | `/renters/store` | RenterController@store | Tạo khách thuê |
-| GET | `/renters/edit?id=` | RenterController@edit | Form sửa |
-| POST | `/renters/update` | RenterController@update | Cập nhật |
-| POST | `/renters/delete` | RenterController@delete | Xóa (POST) |
-| GET | `/rentals` | RentalController@index | Danh sách phiếu thuê |
-| GET | `/rentals/create` | RentalController@create | Form tạo phiếu thuê |
-| POST | `/rentals/store` | RentalController@store | Tạo phiếu thuê |
-| GET | `/rentals/edit?id=` | RentalController@edit | Form sửa |
-| POST | `/rentals/update` | RentalController@update | Cập nhật |
-| POST | `/rentals/delete` | RentalController@delete | Xóa (POST) |
-| GET | `/health` | HealthController@index | JSON kiểm tra app/db |
+| Method | URL                      | Controller@Action             | Mô tả                          |
+| ------ | ------------------------ | ----------------------------- | ------------------------------ |
+| GET    | `/`                      | HomeController@index          | Trang chủ / redirect dashboard |
+| GET    | `/login`                 | AuthController@login          | Form đăng nhập                 |
+| POST   | `/login`                 | AuthController@handleLogin    | Xử lý đăng nhập                |
+| POST   | `/logout`                | AuthController@logout         | Đăng xuất                      |
+| GET    | `/dashboard`             | DashboardController@index     | Tổng quan (yêu cầu login)      |
+| GET    | `/public-renters/create` | PublicRenterController@create | Form công khai đăng ký thuê    |
+| POST   | `/public-renters`        | PublicRenterController@store  | Xử lý form công khai + PRG     |
+| GET    | `/renters`               | RenterController@index        | Danh sách khách thuê           |
+| GET    | `/renters/create`        | RenterController@create       | Form thêm khách thuê           |
+| POST   | `/renters/store`         | RenterController@store        | Tạo khách thuê                 |
+| GET    | `/renters/edit?id=`      | RenterController@edit         | Form sửa                       |
+| POST   | `/renters/update`        | RenterController@update       | Cập nhật                       |
+| POST   | `/renters/delete`        | RenterController@delete       | Xóa (POST)                     |
+| GET    | `/rentals`               | RentalController@index        | Danh sách phiếu thuê           |
+| GET    | `/rentals/create`        | RentalController@create       | Form tạo phiếu thuê            |
+| POST   | `/rentals/store`         | RentalController@store        | Tạo phiếu thuê                 |
+| GET    | `/rentals/edit?id=`      | RentalController@edit         | Form sửa                       |
+| POST   | `/rentals/update`        | RentalController@update       | Cập nhật                       |
+| POST   | `/rentals/delete`        | RentalController@delete       | Xóa (POST)                     |
+| GET    | `/health`                | HealthController@index        | JSON kiểm tra app/db           |
 
 ## Cấu trúc thư mục
 
@@ -100,21 +100,21 @@ project/
 ## Mapping từ Lab mẫu
 
 | Lab mẫu (Lead/Order) | Equipment Rental CRM |
-|----------------------|----------------------|
-| leads | renters (khách thuê) |
-| orders | rentals (phiếu thuê) |
-| order_code | rental_code (unique) |
-| unique_lead_email | unique_renter_email |
-| /leads | /renters |
-| /orders | /rentals |
-| web_php_final | equipment_rental_crm |
+| -------------------- | -------------------- |
+| leads                | renters (khách thuê) |
+| orders               | rentals (phiếu thuê) |
+| order_code           | rental_code (unique) |
+| unique_lead_email    | unique_renter_email  |
+| /leads               | /renters             |
+| /orders              | /rentals             |
+| web_php_final        | equipment_rental_crm |
 
 ## Kiểm tra EXPLAIN
 
 ```sql
 EXPLAIN SELECT id, name, email, phone, status, created_at
 FROM renters
-WHERE name LIKE '%anna%'
+WHERE name LIKE '%Nguyễn%'
 ORDER BY created_at DESC
 LIMIT 10 OFFSET 0;
 
@@ -127,33 +127,33 @@ LIMIT 10 OFFSET 0;
 
 ## Test cases (TC01–TC25)
 
-| Mã | Thao tác | Kết quả mong đợi |
-|----|----------|------------------|
-| TC01 | GET /login | Form login hiển thị |
-| TC02 | Login sai | Lỗi thân thiện, không tạo session |
-| TC03 | Login đúng | Redirect /dashboard, flash 1 lần |
-| TC04 | /dashboard chưa login | Redirect /login |
-| TC05 | Logout | Không truy cập dashboard |
-| TC06 | Timeout 30 phút | Yêu cầu login lại |
-| TC07 | Public form thiếu field | Lỗi cạnh field, giữ old input |
-| TC08 | Honeypot có dữ liệu | Request bị từ chối |
-| TC09 | Public form hợp lệ | PRG + flash, F5 không trùng |
-| TC10 | Tạo renter thiếu field | Lỗi validate |
-| TC11 | Tạo renter hợp lệ | Redirect /renters + flash |
-| TC12 | Email renter trùng | Lỗi thân thiện |
-| TC13 | Edit/update renter | Form có dữ liệu cũ, update OK |
-| TC14 | Delete renter POST | Xóa thành công |
-| TC15 | Tạo rental hợp lệ | Redirect /rentals + flash |
-| TC16 | rental_code trùng | Lỗi mã phiếu đã tồn tại |
-| TC17 | /renters?q=anna | Search đúng |
-| TC18 | page=-1 hoặc page=999 | Chuẩn hóa về 1 hoặc totalPages |
-| TC19 | sort=created_at&direction=desc | Sort hợp lệ |
-| TC20 | sort=id; DROP TABLE... | Dùng sort mặc định |
-| TC21 | GET /health | JSON status |
-| TC22 | POST /health | 405 |
-| TC23 | /unknown | 404 |
-| TC24 | debug=false + DB lỗi | Safe message |
-| TC25 | EXPLAIN query list | Index được sử dụng |
+| Mã   | Thao tác                       | Kết quả mong đợi                  |
+| ---- | ------------------------------ | --------------------------------- |
+| TC01 | GET /login                     | Form login hiển thị               |
+| TC02 | Login sai                      | Lỗi thân thiện, không tạo session |
+| TC03 | Login đúng                     | Redirect /dashboard, flash 1 lần  |
+| TC04 | /dashboard chưa login          | Redirect /login                   |
+| TC05 | Logout                         | Không truy cập dashboard          |
+| TC06 | Timeout 30 phút                | Yêu cầu login lại                 |
+| TC07 | Public form thiếu field        | Lỗi cạnh field, giữ old input     |
+| TC08 | Honeypot có dữ liệu            | Request bị từ chối                |
+| TC09 | Public form hợp lệ             | PRG + flash, F5 không trùng       |
+| TC10 | Tạo renter thiếu field         | Lỗi validate                      |
+| TC11 | Tạo renter hợp lệ              | Redirect /renters + flash         |
+| TC12 | Email renter trùng             | Lỗi thân thiện                    |
+| TC13 | Edit/update renter             | Form có dữ liệu cũ, update OK     |
+| TC14 | Delete renter POST             | Xóa thành công                    |
+| TC15 | Tạo rental hợp lệ              | Redirect /rentals + flash         |
+| TC16 | rental_code trùng              | Lỗi mã phiếu đã tồn tại           |
+| TC17 | /renters?q=Nguyễn              | Search đúng (tiếng Việt có dấu)   |
+| TC18 | page=-1 hoặc page=999          | Chuẩn hóa về 1 hoặc totalPages    |
+| TC19 | sort=created_at&direction=desc | Sort hợp lệ                       |
+| TC20 | sort=id; DROP TABLE...         | Dùng sort mặc định                |
+| TC21 | GET /health                    | JSON status                       |
+| TC22 | POST /health                   | 405                               |
+| TC23 | /unknown                       | 404                               |
+| TC24 | debug=false + DB lỗi           | Safe message                      |
+| TC25 | EXPLAIN query list             | Index được sử dụng                |
 
 ## Bảo mật đã triển khai
 
