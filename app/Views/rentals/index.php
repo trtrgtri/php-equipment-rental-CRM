@@ -28,7 +28,9 @@
     </thead>
     <tbody>
         <?php if (empty($rentals)): ?>
-            <tr><td colspan="8" class="empty">Không có dữ liệu.</td></tr>
+            <tr>
+                <td colspan="8" class="empty">Không có dữ liệu.</td>
+            </tr>
         <?php else: ?>
             <?php foreach ($rentals as $rental): ?>
                 <tr>
@@ -55,8 +57,8 @@
 <?php if (($totalPages ?? 1) > 1): ?>
     <div class="pagination">
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-            <a href="?q=<?= e($keyword ?? '') ?>&page=<?= $i ?>&sort=<?= e($sort ?? 'created_at') ?>&direction=<?= e($direction ?? 'desc') ?>"
-               class="<?= ($page ?? 1) === $i ? 'active' : '' ?>"><?= $i ?></a>
+            <a href="?q=<?= e($keyword ?? '') ?>&page=<?= e((string) $i) ?>&sort=<?= e($sort ?? 'created_at') ?>&direction=<?= e($direction ?? 'desc') ?>"
+                class="<?= ($page ?? 1) === $i ? 'active' : '' ?>"><?= e((string) $i) ?></a>
         <?php endfor; ?>
     </div>
 <?php endif; ?>
