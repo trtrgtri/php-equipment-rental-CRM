@@ -1,6 +1,5 @@
 USE equipment_rental_crm;
 
--- Password: 123456
 INSERT INTO users (name, email, password_hash, role) VALUES
 ('Admin User', 'admin@example.com', '$2y$10$cEf1sJ2HtnSG9If7xdbn.O3CIYa/xFnoFx4Y.rf1PESl2rLaRdu1C', 'admin'),
 ('Staff User', 'staff@example.com', '$2y$10$cEf1sJ2HtnSG9If7xdbn.O3CIYa/xFnoFx4Y.rf1PESl2rLaRdu1C', 'staff');
