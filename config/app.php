@@ -2,7 +2,7 @@
 
 return [
     'name' => 'Equipment Rental CRM',
-    'debug' => true,
+    'debug' => false,
     'session_timeout' => 1800, // 30 minutes
     'base_url' => '',
 ];
