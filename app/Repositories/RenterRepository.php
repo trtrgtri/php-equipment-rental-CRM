@@ -2,7 +2,7 @@
 
 class RenterRepository
 {
-    private const SORTABLE = ['created_at', 'name', 'email', 'status'];
+    private const SORTABLE = ['id', 'created_at', 'name', 'email', 'status'];
 
     public function __construct(private PDO $db) {}
 
