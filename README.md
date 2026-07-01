@@ -16,7 +16,7 @@ Biến thể Lab06 Final từ Secure Mini CRM (Lead & Order) sang bài toán cho
 
 ```bash
 git clone <your-repo-url>
-cd "Cursor-Equipment Rental CRM"
+cd "Equipment Rental CRM"
 ```
 
 ### 2. Tạo database
@@ -169,7 +169,3 @@ LIMIT 10 OFFSET 0;
 - Sort whitelist chống SQL injection
 - Duplicate key handling không lộ SQLSTATE
 - Production safe error messages + log vào storage/logs/app.log
-
-## License
-
-Educational project — VTCA Web Development with PHP Lab06 Final.
