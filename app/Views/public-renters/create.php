@@ -2,6 +2,7 @@
 <?php partial('flash'); ?>
 
 <form method="POST" action="/public-renters" class="form-card">
+    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
     <?php if (!empty($errors['general'])): ?>
         <div class="alert alert-error"><?= e($errors['general']) ?></div>
     <?php endif; ?>

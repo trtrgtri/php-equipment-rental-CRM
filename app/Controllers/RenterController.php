@@ -5,8 +5,7 @@ class RenterController
     public function __construct(
         private RenterService $service,
         private RenterRepository $repo
-    ) {
-    }
+    ) {}
 
     public function index(): void
     {
@@ -30,7 +29,13 @@ class RenterController
 
     public function store(): void
     {
+
         require_login();
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            flash('error', 'Yêu cầu không hợp lệ (CSRF token thất bại).');
+            redirect('/renters');
+            return;
+        }
 
         $result = $this->service->createRenter($_POST);
 
@@ -72,7 +77,11 @@ class RenterController
     public function update(): void
     {
         require_login();
-
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            flash('error', 'Yêu cầu không hợp lệ (CSRF token thất bại).');
+            redirect('/renters');
+            return;
+        }
         $id = (int) ($_POST['id'] ?? 0);
         $result = $this->service->updateRenter($id, $_POST);
 
@@ -96,7 +105,11 @@ class RenterController
     public function delete(): void
     {
         require_login();
-
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            flash('error', 'Yêu cầu không hợp lệ (CSRF token thất bại).');
+            redirect('/renters');
+            return;
+        }
         $id = (int) ($_POST['id'] ?? 0);
         $result = $this->service->deleteRenter($id);
 

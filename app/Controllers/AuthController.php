@@ -2,9 +2,7 @@
 
 class AuthController
 {
-    public function __construct(private AuthService $authService)
-    {
-    }
+    public function __construct(private AuthService $authService) {}
 
     public function login(): void
     {
@@ -21,6 +19,11 @@ class AuthController
 
     public function handleLogin(): void
     {
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            flash('error', 'Yêu cầu không hợp lệ (CSRF token thất bại).');
+            redirect('/renters');
+            return;
+        }
         $result = $this->authService->login(
             $_POST['email'] ?? '',
             $_POST['password'] ?? ''

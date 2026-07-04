@@ -2,6 +2,7 @@
 <?php partial('flash'); ?>
 
 <form method="POST" action="/rentals/update" class="form-card">
+    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
     <input type="hidden" name="id" value="<?= e((string) $rental['id']) ?>">
 
     <?php if (!empty($errors['general'])): ?>

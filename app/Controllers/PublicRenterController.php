@@ -2,9 +2,7 @@
 
 class PublicRenterController
 {
-    public function __construct(private PublicRenterService $service)
-    {
-    }
+    public function __construct(private PublicRenterService $service) {}
 
     public function create(): void
     {
@@ -17,6 +15,11 @@ class PublicRenterController
 
     public function store(): void
     {
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            flash('error', 'Yêu cầu không hợp lệ (CSRF token thất bại).');
+            redirect('/renters');
+            return;
+        }
         $result = $this->service->store($_POST);
 
         if (!$result['success']) {
