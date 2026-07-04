@@ -37,7 +37,18 @@
                     <td><?= e($renter['name']) ?></td>
                     <td><?= e($renter['email']) ?></td>
                     <td><?= e($renter['phone'] ?? '') ?></td>
-                    <td><span class="badge"><?= e($renter['status']) ?></span></td>
+                    <td>
+                        <?php
+                        $statusClass = match ($renter['status']) {
+                            'new'        => 'badge-primary',
+                            'contacted'  => 'badge-warning',
+                            'approved'   => 'badge-success',
+                            'inactive'   => 'badge-danger',
+                            default      => 'badge-secondary',
+                        };
+                        ?>
+                        <span class="badge <?= $statusClass ?>"><?= e($renter['status']) ?></span>
+                    </td>
                     <td><?= e($renter['created_at']) ?></td>
                     <td class="actions">
                         <a href="/renters/edit?id=<?= e((string) $renter['id']) ?>" class="btn btn-sm">Sửa</a>

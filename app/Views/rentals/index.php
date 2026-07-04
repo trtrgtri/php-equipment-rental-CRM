@@ -39,7 +39,18 @@
                     <td><?= e($rental['renter_email'] ?? '') ?></td>
                     <td><?= e($rental['equipment_name']) ?></td>
                     <td><?= e(number_format((float) $rental['total_amount'], 0, ',', '.')) ?> đ</td>
-                    <td><span class="badge"><?= e($rental['status']) ?></span></td>
+                    <td><?php
+                        $statusClass = match ($rental['status']) {
+                            'pending'   => 'badge-warning',
+                            'active'    => 'badge-success',
+                            'returned'  => 'badge-secondary',
+                            'overdue'   => 'badge-danger',
+                            'cancelled' => 'badge-secondary',
+                            default     => 'badge-secondary',
+                        };
+                        ?>
+                        <span class="badge <?= $statusClass ?>"><?= e($rental['status']) ?></span>
+                    </td>
                     <td><?= e($rental['created_at']) ?></td>
                     <td class="actions">
                         <a href="/rentals/edit?id=<?= e((string) $rental['id']) ?>" class="btn btn-sm">Sửa</a>

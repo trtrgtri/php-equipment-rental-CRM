@@ -5,9 +5,7 @@ class RenterService
     private const STATUSES = ['new', 'contacted', 'approved', 'inactive'];
     private const SORTABLE = ['created_at', 'name', 'email', 'status'];
 
-    public function __construct(private RenterRepository $repo)
-    {
-    }
+    public function __construct(private RenterRepository $repo) {}
 
     public function getRenterList(array $query): array
     {
