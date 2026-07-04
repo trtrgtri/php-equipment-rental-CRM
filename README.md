@@ -155,6 +155,39 @@ LIMIT 10 OFFSET 0;
 | TC24 | debug=false + DB lỗi           | Safe message                      |
 | TC25 | EXPLAIN query list             | Index được sử dụng                |
 
+## Tính năng Bonus đã triển khai
+
+Dự án đã được mở rộng thêm các tính năng nâng cao so với yêu cầu gốc của Lab06:
+
+### 1. Soft Delete (Xóa mềm)
+
+- Thêm cột `deleted_at` vào bảng `renters` và `rentals`.
+- Thay vì xóa vật lý (`DELETE`), hệ thống thực hiện `UPDATE ... SET deleted_at = NOW()`.
+- Các truy vấn danh sách, đếm tổng, phân trang đều thêm điều kiện `WHERE deleted_at IS NULL` để ẩn dữ liệu đã xóa, giúp bảo toàn lịch sử đối soát.
+
+### 2. CSRF Protection (Chống giả mạo request)
+
+- Tự động sinh `csrf_token` bằng `random_bytes()` và lưu vào Session.
+- Tất cả form `POST` (Tạo mới, Cập nhật, Xóa, Login) đều có thẻ `<input type="hidden" name="csrf_token">`.
+- Controller so khớp token thông qua hàm `hash_equals()` để vô hiệu hóa tấn công CSRF.
+
+### 3. Role-Based Permission (Phân quyền theo vai trò)
+
+- Chỉ tài khoản có `role = admin` mới được thực hiện hành động Xóa (Delete) khách thuê và phiếu thuê.
+- Tài khoản `staff` không thấy nút "Xóa" trên giao diện và bị từ chối nếu cố gọi API xóa.
+
+### 4. Seed dữ liệu số lượng lớn
+
+- Script `database/seed_mass.php` tạo 200 khách thuê và 300 phiếu thuê ngẫu nhiên.
+- Hỗ trợ kiểm thử hiệu năng phân trang, tìm kiếm và sắp xếp với dữ liệu thực tế.
+
+### 5. Badge màu sắc theo trạng thái
+
+- Mỗi trạng thái (`new`, `contacted`, `approved`, `inactive`, `pending`, `active`, `returned`, `overdue`, `cancelled`) có màu sắc riêng.
+- Giúp người dùng dễ dàng nhận biết và phân loại trực quan.
+
+---
+
 ## Bảo mật đã triển khai
 
 - PDO prepared statements (ATTR_EMULATE_PREPARES=false)
