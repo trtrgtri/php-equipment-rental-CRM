@@ -8,19 +8,21 @@ class RentalRepository
 
     public function countAll(string $keyword = ''): int
     {
-        $sql = "SELECT COUNT(*) FROM rentals WHERE deleted_at IS NULL";
+        $sql = 'SELECT COUNT(*) AS total FROM rentals WHERE deleted_at IS NULL';
+        $params = [];
 
         if ($keyword !== '') {
-            $sql .= " AND (rental_code LIKE :keyword OR renter_name LIKE :keyword)";
+            $sql .= ' AND (rental_code LIKE :keyword1 OR renter_name LIKE :keyword2 OR renter_email LIKE :keyword3 OR equipment_name LIKE :keyword4)';
+            $params['keyword1'] = '%' . $keyword . '%';
+            $params['keyword2'] = '%' . $keyword . '%';
+            $params['keyword3'] = '%' . $keyword . '%';
+            $params['keyword4'] = '%' . $keyword . '%';
         }
 
         $stmt = $this->db->prepare($sql);
-        if ($keyword !== '') {
-            $stmt->bindValue(':keyword', '%' . $keyword . '%');
-        }
+        $stmt->execute($params);
 
-        $stmt->execute();
-        return (int) $stmt->fetchColumn();
+        return (int) ($stmt->fetch()['total'] ?? 0);
     }
 
     public function getPaginated(string $keyword, int $limit, int $offset, string $sort, string $direction): array
@@ -28,15 +30,12 @@ class RentalRepository
         $sortColumn = in_array($sort, self::SORTABLE, true) ? $sort : 'created_at';
         $sortDirection = $direction === 'asc' ? 'ASC' : 'DESC';
 
-        $sql = 'SELECT id, rental_code, renter_name, renter_email, equipment_name, total_amount, status, created_at
-                FROM rentals';
+        $sql = 'SELECT id, rental_code, renter_name, renter_email, equipment_name, total_amount, status, created_at 
+                FROM rentals WHERE deleted_at IS NULL';
         $params = [];
 
         if ($keyword !== '') {
-            $sql .= ' WHERE rental_code LIKE :keyword1
-                      OR renter_name LIKE :keyword2
-                      OR renter_email LIKE :keyword3
-                      OR equipment_name LIKE :keyword4';
+            $sql .= ' AND (rental_code LIKE :keyword1 OR renter_name LIKE :keyword2 OR renter_email LIKE :keyword3 OR equipment_name LIKE :keyword4)';
             $params['keyword1'] = '%' . $keyword . '%';
             $params['keyword2'] = '%' . $keyword . '%';
             $params['keyword3'] = '%' . $keyword . '%';
@@ -59,7 +58,7 @@ class RentalRepository
 
     public function findById(int $id): ?array
     {
-        $stmt = $this->db->prepare('SELECT * FROM rentals WHERE id = :id LIMIT 1');
+        $stmt = $this->db->prepare('SELECT * FROM rentals WHERE id = :id AND deleted_at IS NULL LIMIT 1');
         $stmt->execute(['id' => $id]);
 
         $rental = $stmt->fetch();
@@ -106,7 +105,7 @@ class RentalRepository
 
     public function delete(int $id): bool
     {
-        $stmt = $this->db->prepare('DELETE FROM rentals WHERE id = :id');
+        $stmt = $this->db->prepare('UPDATE rentals SET deleted_at = NOW() WHERE id = :id');
 
         return $stmt->execute(['id' => $id]);
     }
@@ -114,7 +113,7 @@ class RentalRepository
     public function countByStatus(): array
     {
         $stmt = $this->db->query(
-            'SELECT status, COUNT(*) AS total FROM rentals GROUP BY status'
+            'SELECT status, COUNT(*) AS total FROM rentals WHERE deleted_at IS NULL GROUP BY status'
         );
 
         $result = [];
@@ -127,7 +126,7 @@ class RentalRepository
 
     public function sumTotalAmount(): float
     {
-        $stmt = $this->db->query('SELECT COALESCE(SUM(total_amount), 0) AS total FROM rentals');
+        $stmt = $this->db->query('SELECT COALESCE(SUM(total_amount), 0) AS total FROM rentals WHERE deleted_at IS NULL');
 
         return (float) ($stmt->fetch()['total'] ?? 0);
     }
