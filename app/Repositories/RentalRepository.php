@@ -8,24 +8,19 @@ class RentalRepository
 
     public function countAll(string $keyword = ''): int
     {
-        $sql = 'SELECT COUNT(*) AS total FROM rentals';
-        $params = [];
+        $sql = "SELECT COUNT(*) FROM rentals WHERE deleted_at IS NULL";
 
         if ($keyword !== '') {
-            $sql .= ' WHERE rental_code LIKE :keyword1
-                      OR renter_name LIKE :keyword2
-                      OR renter_email LIKE :keyword3
-                      OR equipment_name LIKE :keyword4';
-            $params['keyword1'] = '%' . $keyword . '%';
-            $params['keyword2'] = '%' . $keyword . '%';
-            $params['keyword3'] = '%' . $keyword . '%';
-            $params['keyword4'] = '%' . $keyword . '%';
+            $sql .= " AND (rental_code LIKE :keyword OR renter_name LIKE :keyword)";
         }
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute($params);
+        if ($keyword !== '') {
+            $stmt->bindValue(':keyword', '%' . $keyword . '%');
+        }
 
-        return (int) ($stmt->fetch()['total'] ?? 0);
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
     }
 
     public function getPaginated(string $keyword, int $limit, int $offset, string $sort, string $direction): array

@@ -8,11 +8,11 @@ class RenterRepository
 
     public function countAll(string $keyword = ''): int
     {
-        $sql = 'SELECT COUNT(*) AS total FROM renters';
+        $sql = 'SELECT COUNT(*) AS total FROM renters WHERE deleted_at IS NULL';
         $params = [];
 
         if ($keyword !== '') {
-            $sql .= ' WHERE name LIKE :keyword1 OR email LIKE :keyword2 OR phone LIKE :keyword3';
+            $sql .= ' AND (name LIKE :keyword1 OR email LIKE :keyword2 OR phone LIKE :keyword3)';
             $params['keyword1'] = '%' . $keyword . '%';
             $params['keyword2'] = '%' . $keyword . '%';
             $params['keyword3'] = '%' . $keyword . '%';
@@ -29,11 +29,11 @@ class RenterRepository
         $sortColumn = in_array($sort, self::SORTABLE, true) ? $sort : 'created_at';
         $sortDirection = $direction === 'asc' ? 'ASC' : 'DESC';
 
-        $sql = 'SELECT id, name, email, phone, status, created_at FROM renters';
+        $sql = 'SELECT id, name, email, phone, status, created_at FROM renters WHERE deleted_at IS NULL';
         $params = [];
 
         if ($keyword !== '') {
-            $sql .= ' WHERE name LIKE :keyword1 OR email LIKE :keyword2 OR phone LIKE :keyword3';
+            $sql .= ' AND (name LIKE :keyword1 OR email LIKE :keyword2 OR phone LIKE :keyword3)';
             $params['keyword1'] = '%' . $keyword . '%';
             $params['keyword2'] = '%' . $keyword . '%';
             $params['keyword3'] = '%' . $keyword . '%';
@@ -55,7 +55,7 @@ class RenterRepository
 
     public function findById(int $id): ?array
     {
-        $stmt = $this->db->prepare('SELECT * FROM renters WHERE id = :id LIMIT 1');
+        $stmt = $this->db->prepare('SELECT * FROM renters WHERE id = :id AND deleted_at IS NULL LIMIT 1');
         $stmt->execute(['id' => $id]);
 
         $renter = $stmt->fetch();
@@ -101,14 +101,14 @@ class RenterRepository
 
     public function delete(int $id): bool
     {
-        $stmt = $this->db->prepare('DELETE FROM renters WHERE id = :id');
+        $stmt = $this->db->prepare('UPDATE renters SET deleted_at = NOW() WHERE id = :id');
 
         return $stmt->execute(['id' => $id]);
     }
 
     public function countByStatus(string $status): int
     {
-        $stmt = $this->db->prepare('SELECT COUNT(*) AS total FROM renters WHERE status = :status');
+        $stmt = $this->db->prepare('SELECT COUNT(*) AS total FROM renters WHERE status = :status AND deleted_at IS NULL');
         $stmt->execute(['status' => $status]);
 
         return (int) ($stmt->fetch()['total'] ?? 0);
