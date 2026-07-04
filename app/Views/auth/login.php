@@ -27,4 +27,7 @@
     <button type="submit" class="btn btn-primary">Đăng nhập</button>
 </form>
 
-<p class="hint">Tài khoản demo: admin@example.com / 123456</p>
+<p class="hint">
+    Tài khoản admin: <strong>admin@example.com</strong> / 123456<br>
+    Tài khoản staff: <strong>staff@example.com</strong> / 123456
+</p>

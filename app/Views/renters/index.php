@@ -41,10 +41,12 @@
                     <td><?= e($renter['created_at']) ?></td>
                     <td class="actions">
                         <a href="/renters/edit?id=<?= e((string) $renter['id']) ?>" class="btn btn-sm">Sửa</a>
-                        <form method="POST" action="/renters/delete" class="inline-form" onsubmit="return confirm('Xóa khách thuê này?');">
-                            <input type="hidden" name="id" value="<?= e((string) $renter['id']) ?>">
-                            <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
-                        </form>
+                        <?php if (has_role('admin')): ?>
+                            <form method="POST" action="/renters/delete" class="inline-form" onsubmit="return confirm('Xóa?');">
+                                <input type="hidden" name="id" value="<?= e((string) $renter['id']) ?>">
+                                <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                            </form>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

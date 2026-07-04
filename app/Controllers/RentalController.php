@@ -105,12 +105,8 @@ class RentalController
 
     public function delete(): void
     {
-        require_login();
-        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-            flash('error', 'Yêu cầu không hợp lệ (CSRF token thất bại).');
-            redirect('/renters');
-            return;
-        }
+        require_admin();
+
         $id = (int) ($_POST['id'] ?? 0);
         $result = $this->service->deleteRental($id);
 

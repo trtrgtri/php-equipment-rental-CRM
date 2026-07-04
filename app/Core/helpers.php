@@ -139,3 +139,18 @@ function verify_csrf_token(string $token): bool
     }
     return hash_equals($_SESSION['csrf_token'], $token);
 }
+
+function has_role(string $role): bool
+{
+    return ($_SESSION['user_role'] ?? '') === $role;
+}
+
+function require_admin(): void
+{
+    require_login();
+    if (!has_role('admin')) {
+        flash('error', 'Bạn không có quyền thực hiện thao tác này.');
+        redirect('/dashboard');
+        exit;
+    }
+}
